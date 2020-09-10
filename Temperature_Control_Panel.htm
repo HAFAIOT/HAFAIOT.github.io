@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Temperature Control Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="Temperature Control Panel" content="Useing HDT22 to monitor a tunnel">
+  <meta name="Austin Stokes" content="St.Thomas University">
+</head>
+<body style="background-color:rgb(200,200,200);">
+<table border=2 bordercollor="0000FF">
+<tr><td>
+<h1 align="center" style="font-size:150%;color:#000000;">Temperature Control Panel</h1>
+
+	<!Change the next 1 ****** to the Temperature Channel ID>
+<iframe name="iframe_graph" id="iframe_graph" style="border: 3px solid #aaaaaa;width:97%;height:230px;object-fit:contain;margin-left:1%;" src="https://api.thingspeak.com/channels/******/charts/1?title=Temperature%20Readings%20For%20One%20Day&xaxis=Time&results=144&days=1&width=auto&height=auto"></iframe>
+
+	<!Change the next 4 ****** to the Temperature Channel ID>
+<button onclick="document.getElementById('iframe_graph').src='https://api.thingspeak.com/channels/******/charts/1?title=Temperature%20Readings%20For%20One%20Day&xaxis=Time&results=144&days=1&width=auto&height=auto'">Show Graph For One Day</button>
+
+<button onclick="document.getElementById('iframe_graph').src='https://api.thingspeak.com/channels/******/charts/1?title=Temperature%20Readings%20For%20One%20Week&xaxis=Time&results=168&days=7&average=60&width=auto&height=auto'">Show Graph For One Week</button>
+
+<button onclick="document.getElementById('iframe_graph').src='https://api.thingspeak.com/channels/******/charts/1?title=Temperature%20Readings%20For%20One%20Month&xaxis=Time&results=4320&days=30&average=1440&width=auto&height=auto'">Show Graph For One Month</button>
+
+<button onclick="document.getElementById('iframe_graph').src='https://api.thingspeak.com/channels/******/charts/1?title=Temperature%20Readings%20For%20One%20Year&xaxis=Time&results=52560&days=365&average=1440&width=auto&height=auto'">Show Graph For One Year</button>
+
+<iframe style="border: 3px solid #aaaaaa;width:97%;height:230px;object-fit:contain;margin-left:1%;margin-bottom:4px;margin-top:4px;" src="https://thingspeak.com/channels/819411/widgets/85702&width=auto&height=auto"></iframe>
+
+<script>
+	function myFunction(){
+    	var e = document.getElementById("crops");
+        var x = e.options[e.selectedIndex].value;
+        if(x=="Other"){
+        	document.getElementById("temp").value = "";
+            document.getElementById("temp").focus();
+        }
+        else{
+        	document.getElementById("temp").value = x;
+        }
+	}
+</script>
+
+<iframe name="iframe_a" height="0" width="0"></iframe>
+<form name="input" action="https://api.thingspeak.com/update" method="post" enctype="multipart/form-data" id="form1">
+	<fieldset>
+    	<legend>Change the Overheating Temperature</legend>
+        ThingSpeak Write API Key:<br>
+    	<input type="password" name="api_key" required><br>
+        New Overheating Temperature in Fahrenheit:<br>
+        <select id="crops" onchange="myFunction()">
+        	<option value="Other" selected> Other</option>
+        	<option value="85"> Artichoke:85</option>
+            	<option value="70"> Beets:70</option>
+            	<option value="85"> Carrots:85</option>
+            	<option value="75"> Cauliflower:75</option>
+            	<option value="90"> Cucumbers:90</option>
+            	<option value="90"> Eggplant:90</option>
+            	<option value="50"> Garlic:50</option>
+            	<option value="85"> Green Beans:85</option>
+            	<option value="77"> Green Onions:77</option>
+            	<option value="80"> Kale:80</option>
+            	<option value="75"> Leeks:75</option>
+            	<option value="80"> Lettuce:80</option>
+            	<option value="70"> Peas:70</option>
+            	<option value="80"> Peppers:80</option>
+            	<option value="80"> Potatoes:80</option>
+            	<option value="65"> Radishes:65</option>
+            	<option value="75"> Rhubarb:75</option>
+            	<option value="75"> Spinach:75</option>
+            	<option value="75"> Swiss Chard:75</option>
+            	<option value="59"> Watercress:59</option>
+            	<option value="70"> Zucchini:70</option>
+        </select>
+    	<input type="number" placeholder="Other Temp Here" id="temp" name="field1" autofocus><br><br>
+        
+    	<input type="submit" formtarget="iframe_a" value="Submit Normal">
+        <input type="submit" formtarget="_blank" value="Submit New Window">
+    </fieldset>
+</form>
+</td></tr>
+</table>
+<noscript style="font-size:150%;color:red;">Your browser does not support JavaScript, this will impact some fucntions on this page however you should still be able to change the overheating temperature.</noscript>
+<p>
+The Overheating Temperature refers to the temperature at witch you will get a notification. You will get a notification when the Arduino gets a temperature reading that is above the Overheating Temperature. You will also get a notification if ThingSpeak calculates that there is a high problbility that it will overheat based off of weather forcasting and previous temperature measurements.
+</p>
+
+	<!Change the next 2 ****** to the High Temperature Channel ID>
+<p>
+To get your ThingSpeak Write API Key you can go to
+<a href="https://thingspeak.com/channels/******/api_keys" target="_blank">https://thingspeak.com/channels/******/api_keys</a>
+and copy the Write API Key from there. It is very important not to reset/generate new Read or Write API keys, if you do generate new API keys then the Arduino code will need to be updated to reflect the changes. Do not give out your API keys to strangers, treat them like you would a password.
+</p>
+
+<p>
+To get the code for this page and the code that the Arduino is running on you can visit
+<a href="https://github.com/TheMrIndeed/Fed-NSF-Efficient-Field-Testing" target="_blank">https://github.com/TheMrIndeed/Fed-NSF-Efficient-Field-Testing</a>
+</p>
+
+</body>
+</html>
